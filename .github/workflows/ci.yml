@@ -21,3 +21,14 @@ jobs:
         uses: matlab-actions/run-command@v1
         with:
           command: results = runtests, assertSuccess(results);
+          
+      - name: Publish to pages
+        uses: JamesIves/github-pages-deploy-action@3.7.1
+        with:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          BRANCH: my-pages # The branch the action should deploy to.
+          FOLDER: . # The folder the action should deploy.
+          BASE_BRANCH: gh-pages
+          CLEAN: false # 
+          PRESERVE: true
+          CLEAN_EXCLUDE: '["dev", "jobs"]'
