@@ -23,3 +23,8 @@ jobs:
         uses: matlab-actions/run-command@v1
         with:
           command: diffGitHub
+      - name: Upload artifact
+        uses: actions/upload-artifact@v1
+        with:
+          name: diffreport
+          path: /home/runner/work/Airframe-Project-GitHub-Actions/Airframe-Project-GitHub-Actions/airframe_orig_f14_airframe.html
