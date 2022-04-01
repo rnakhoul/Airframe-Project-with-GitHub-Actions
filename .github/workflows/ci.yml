@@ -13,15 +13,13 @@ on:
 jobs:
   my-job:
     name: Run All Project Tests
-    runs-on: ubuntu-latest
+    runs-on: self-hosted
     steps:
       - name: Check out repository
         uses: actions/checkout@v2
       - name: Set up MATLAB
         uses: matlab-actions/setup-matlab@v1
-      - name: Run commands
+      - name: Run project tests
         uses: matlab-actions/run-command@v1
         with:
           command: runProjectTests
-
-         
