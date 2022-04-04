@@ -7,8 +7,8 @@ on:
   # Triggers the workflow on push or pull request events but only for the main branch
   push:
     branches: [ main ]
-  pull_request:
-    branches: [ main ]
+#  pull_request:
+ #   branches: [ main ]
 
 jobs:
   my-job:
@@ -27,4 +27,4 @@ jobs:
         uses: actions/upload-artifact@v1
         with:
           name: diffreport
-          path: /home/runner/work/Airframe-Project-GitHub-Actions/Airframe-Project-GitHub-Actions/airframe_orig_f14_airframe.pdf
+          path: file
