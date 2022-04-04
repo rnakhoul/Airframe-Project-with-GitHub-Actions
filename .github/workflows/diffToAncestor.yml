@@ -24,7 +24,7 @@ jobs:
         with:
           command: diffGitHub
       - name: Upload artifact
-        uses: actions/upload-artifact@v1
+        uses: actions/upload-artifact@v3
         with:
-          name: diffreport
-          path: file
+           name: diffreports
+           path: /home/runner/work/Airframe-Project-GitHub-Actions/Airframe-Project-GitHub-Actions/
