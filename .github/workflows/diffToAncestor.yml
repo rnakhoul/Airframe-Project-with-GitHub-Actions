@@ -27,4 +27,4 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
            name: diffreports
-           path: /home/runner/work/Airframe-Project-GitHub-Actions/Airframe-Project-GitHub-Actions/?_?.pdf
+           path: /home/runner/work/Airframe-Project-GitHub-Actions/Airframe-Project-GitHub-Actions/*.pdf
