@@ -7,17 +7,24 @@ proj = openProject("AirframeExample.prj");
 modifiedFiles = split(modifiedFiles);
 modifiedFiles = modifiedFiles(1:(end-1));
 
+%Create a temporary folder
+tempdir = fullfile(proj.RootFolder, "modelscopy");
+mkdir(tempdir)
+
 %Generate a comparison report for every modified model file
 for i = 1: size(modifiedFiles)
-    report = diffToAncestor(proj,string(modifiedFiles(i)))
+    report = diffToAncestor(tempdir,string(modifiedFiles(i)))
 end
+
+%Delete temporary folder
+rmdir modelscopy s
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-function report = diffToAncestor(proj,fileName)
+function report = diffToAncestor(tempdir,fileName)
     
-    ancestor = getAncestor(proj,fileName);
-    
+    ancestor = getAncestor(tempdir,fileName);
+
     %Compare models and publish report
     comp= visdiff(ancestor, fileName);
     filter(comp, 'unfiltered');
@@ -26,18 +33,14 @@ function report = diffToAncestor(proj,fileName)
 end
 
 
-function ancestor = getAncestor(proj,fileName)
+function ancestor = getAncestor(tempdir,fileName)
     
-    %Create a temporary folder
-    tempdir = fullfile(proj.RootFolder, "modelscopy")
-    mkdir(tempdir)
-        
-    [relpath, name, ext] = fileparts(fileName)
-    ancestor = fullfile(tempdir, name)
+    [relpath, name, ext] = fileparts(fileName);
+    ancestor = fullfile(tempdir, name);
     
     % Replace seperators to work with Git and create ancestor file name
-    fileName = strrep(fileName, '\', '/')
-    ancestor = strrep(sprintf('%s%s%s',ancestor, "_ancestor", ext), '\', '/')
+    fileName = strrep(fileName, '\', '/');
+    ancestor = strrep(sprintf('%s%s%s',ancestor, "_ancestor", ext), '\', '/');
     
     % Build git command to get ancestor -> !git show HEAD~1:models/modelname.slx > modelscopy/modelname_ancestor.slx
     gitCommand = sprintf('git show HEAD~1:%s > %s', fileName, ancestor);
