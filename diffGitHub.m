@@ -12,16 +12,16 @@ if isempty(modifiedFiles)
     return
 end
 
-%Create a temporary folder
+% Create a temporary folder
 tempdir = fullfile(proj.RootFolder, "modelscopy");
 mkdir(tempdir)
 
-%Generate a comparison report for every modified model file
+% Generate a comparison report for every modified model file
 for i = 1: size(modifiedFiles)
     report = diffToAncestor(tempdir,string(modifiedFiles(i)))
 end
 
-%Delete temporary folder
+% Delete the temporary folder
 rmdir modelscopy s
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -30,7 +30,7 @@ function report = diffToAncestor(tempdir,fileName)
     
     ancestor = getAncestor(tempdir,fileName);
 
-    %Compare models and publish report
+    % Compare models and publish report
     comp= visdiff(ancestor, fileName);
     filter(comp, 'unfiltered');
     report = publish(comp,'pdf');
