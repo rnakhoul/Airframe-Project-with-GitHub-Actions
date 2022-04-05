@@ -7,6 +7,11 @@ proj = openProject("AirframeExample.prj");
 modifiedFiles = split(modifiedFiles);
 modifiedFiles = modifiedFiles(1:(end-1));
 
+if isempty(modifiedFiles)
+    disp('No modified models to compare.')
+    return
+end
+
 %Create a temporary folder
 tempdir = fullfile(proj.RootFolder, "modelscopy");
 mkdir(tempdir)
