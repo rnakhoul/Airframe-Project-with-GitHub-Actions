@@ -1,7 +1,48 @@
-[status,modifiedFiles] = system("git diff --name-only HEAD~1..HEAD  ")
-modifiedFiles = split(modifiedFiles)
-modifiedFiles = modifiedFiles(1:(end-1))
-!(git show HEAD~1:models/f14_airframe.slx > models/airframe_orig.slx)
-comp=visdiff("models/airframe_orig.slx","models/f14_airframe.slx");
-filter(comp, 'unfiltered');
-file = publish(comp,'pdf')
+% Open project
+proj = openProject("AirframeExample.prj");
+
+% List of last modified models. Use *** to search recuursively for modified 
+% SLX files starting in the current folder
+[status,modifiedFiles] = system("git diff --name-only HEAD~1..HEAD ***.slx ")
+modifiedFiles = split(modifiedFiles);
+modifiedFiles = modifiedFiles(1:(end-1));
+
+%Generate a comparison report for every modified model file
+for i = 1: size(modifiedFiles)
+    report = diffToAncestor(proj,string(modifiedFiles(i)))
+end
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+function report = diffToAncestor(proj,fileName)
+    
+    ancestor = getAncestor(proj,fileName);
+    
+    %Compare models and publish report
+    comp= visdiff(ancestor, fileName);
+    filter(comp, 'unfiltered');
+    report = publish(comp,'pdf');
+    
+end
+
+
+function ancestor = getAncestor(proj,fileName)
+    
+    %Create a temporary folder
+    tempdir = fullfile(proj.RootFolder, "modelscopy")
+    mkdir(tempdir)
+        
+    [relpath, name, ext] = fileparts(fileName)
+    ancestor = fullfile(tempdir, name)
+    
+    % Replace seperators to work with Git and create ancestor file name
+    fileName = strrep(fileName, '\', '/')
+    ancestor = strrep(sprintf('%s%s%s',ancestor, "_ancestor", ext), '\', '/')
+    
+    % Build git command to get ancestor -> !git show HEAD~1:models/modelname.slx > modelscopy/modelname_ancestor.slx
+    gitCommand = sprintf('git show HEAD~1:%s > %s', fileName, ancestor);
+    
+    [status, result] = system(gitCommand);
+    assert(status==0, result);
+
+end
