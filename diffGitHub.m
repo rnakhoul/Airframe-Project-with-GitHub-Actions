@@ -1,4 +1,4 @@
-[status,modifiedFiles] = system("git diff --name-only HEAD~1..HEAD '*.slx' ");
+[status,modifiedFiles] = system("git diff --name-only HEAD~1..HEAD  ")
 modifiedFiles = split(modifiedFiles)
 modifiedFiles = modifiedFiles(1:(end-1))
 !(git show HEAD~1:models/f14_airframe.slx > models/airframe_orig.slx)
