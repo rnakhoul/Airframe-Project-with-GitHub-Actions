@@ -1,6 +1,6 @@
 # This is a basic workflow to help you get started with Actions
 
-name: CI - Diff To Ancestor
+name: CI - Diff to Ancestor, Publish Report, and Run Project Tests
 
 # Controls when the workflow will run
 on:
@@ -28,3 +28,7 @@ jobs:
         with:
            name: diffreports
            path: C:\actions-runner\_work\Airframe-Project-GitHub-Actions\Airframe-Project-GitHub-Actions\*.pdf
+      - name: Run All Project Tests
+        uses: matlab-actions/run-command@v1
+        with:
+          command: runProjectTests
