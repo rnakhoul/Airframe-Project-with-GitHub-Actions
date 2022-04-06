@@ -7,7 +7,7 @@ function diffGitHub_pullrequest(branchname)
     % SLX files starting in the current folder
     % git diff $(git merge-base --fork-point main
     % branchtomerge)..branchtomerge
-    gitCommand = sprintf('git diff --name-only main..%s ***.slx',branchname, branchname);
+    gitCommand = sprintf('git diff --name-only main..%s ***.slx', branchname);
     [status,modifiedFiles] = system(gitCommand)
     modifiedFiles = split(modifiedFiles);
     modifiedFiles = modifiedFiles(1:(end-1));
@@ -55,7 +55,7 @@ function ancestor = getAncestor(tempdir,fileName,branchname)
     ancestor = strrep(sprintf('%s%s%s',ancestor, "_ancestor", ext), '\', '/');
     % Build git command to get ancestor -> !git show $(git merge-base --fork-point main
     % branchtomerge):models/modelname.slx > modelscopy/modelname_ancestor.slx
-    gitCommand = sprintf('git show main..%s:%s > %s', branchname, fileName, ancestor);
+    gitCommand = sprintf('git show main:%s > %s', fileName, ancestor);
     
     [status, result] = system(gitCommand);
     assert(status==0, result);
