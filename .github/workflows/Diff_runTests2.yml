@@ -18,7 +18,7 @@ jobs:
         with:
          fetch-depth: 0
       - name: Test
-        uses: actions/github-script@6
+        uses: actions/github-script@0.3
         with:
          github-token: ${{github.token}}
          script: |
