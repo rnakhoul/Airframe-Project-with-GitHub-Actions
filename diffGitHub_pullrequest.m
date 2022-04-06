@@ -7,7 +7,7 @@ function diffGitHub_pullrequest(branchname)
     % SLX files starting in the current folder
     % git diff $(git merge-base --fork-point main
     % branchtomerge)..branchtomerge
-    gitCommand = sprintf('git diff --name-only refs/remotes/origin/main..%s ***.slx', branchname);
+    gitCommand = sprintf('git diff --name-only refs/remotes/origin/main..refs/remotes/origin/%s ***.slx', branchname);
     [status,modifiedFiles] = system(gitCommand)
     modifiedFiles = split(modifiedFiles);
     modifiedFiles = modifiedFiles(1:(end-1));
