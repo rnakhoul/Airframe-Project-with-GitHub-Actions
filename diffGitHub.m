@@ -33,7 +33,7 @@ function report = diffToAncestor(tempdir,fileName)
     % Compare models and publish report
     comp= visdiff(ancestor, fileName);
     filter(comp, 'unfiltered');
-    report = publish(comp,'pdf');
+    report = publish(comp,'html');
     
 end
 
