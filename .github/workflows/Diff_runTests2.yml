@@ -17,16 +17,16 @@ jobs:
         uses: actions/checkout@v2
         with:
          fetch-depth: 0
-      - name: Test
-        uses: actions/github-script@0.3.0
-        with:
-         github-token: ${{github.token}}
-         script: |
-           branch = github.event.pull_request.head.ref
+      - name: Step that prints name of pull request's base branch
+        run: |
+         echo "Pull request's base branch is: ${BASE_BRANCH}"
+          env:
+           BASE_BRANCH: ${{ github.base_ref }}
+           if: github.event_name == 'pull_request'
       - name: Compare Models to Ancestors
         uses: matlab-actions/run-command@v1
         with:
-          command: diffGitHub_pullrequest(branch)
+          command: diffGitHub_pullrequest(BASE_BRANCH)
       - name: Upload Comparison Reports
         uses: actions/upload-artifact@v3
         with:
