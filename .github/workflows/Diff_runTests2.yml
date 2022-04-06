@@ -21,7 +21,7 @@ jobs:
         run: |
          echo "Pull request's head branch is: ${HEAD_BRANCH}"
           env:
-           HEAD_BRANCH: ${{ github.event.pull_request.head.ref }} 
+           HEAD_BRANCH: ${{ github.head_ref }} 
            if: github.event_name == 'pull_request'
       - name: Compare Models to Ancestors
         uses: matlab-actions/run-command@v1
