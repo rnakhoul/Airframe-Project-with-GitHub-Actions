@@ -1,7 +1,7 @@
 % Open project
 proj = openProject("AirframeExample.prj");
 
-% List of last modified models. Use *** to search recuursively for modified 
+% List of last modified models. Use *** to search recursively for modified 
 % SLX files starting in the current folder
 [status,modifiedFiles] = system("git diff --name-only HEAD~1..HEAD ***.slx ")
 modifiedFiles = split(modifiedFiles);
