@@ -20,7 +20,7 @@ jobs:
       - name: Compare Models to Ancestors
         uses: matlab-actions/run-command@v1
         with:
-          command: diffGitHub_pullrequest(${{ github.head_ref }})
+          command: branch =string( ${{ github.head_ref }}), diffGitHub_pullrequest(branch)
       - name: Upload Comparison Reports
         uses: actions/upload-artifact@v3
         with:
