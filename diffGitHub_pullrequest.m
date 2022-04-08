@@ -1,6 +1,9 @@
 function diffGitHub_pullrequest(branchname)
     % Open project
     proj = openProject("AirframeExample.prj");
+
+    [status, branchnamefromscript] = system('git branch --show-current')
+
     % List modified models since branch diverged from main
     % Use *** to search recursively for modified 
     % SLX files starting in the current folder
