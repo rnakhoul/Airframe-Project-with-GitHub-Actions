@@ -25,7 +25,7 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
            name: diffreports
-           path: C:\actions-runner\_work\Airframe-Project-GitHub-Actions\Airframe-Project-GitHub-Actions\*.html
+           path: ${{ github.workspace }}\*.html
       - name: Run All Project Tests
         uses: matlab-actions/run-command@v1
         with:
