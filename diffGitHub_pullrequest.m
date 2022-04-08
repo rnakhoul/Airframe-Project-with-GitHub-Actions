@@ -59,3 +59,5 @@ function ancestor = getAncestor(tempdir,fileName,branchname)
     assert(status==0, result);
 
 end
+
+%   Copyright 2022 The MathWorks, Inc.

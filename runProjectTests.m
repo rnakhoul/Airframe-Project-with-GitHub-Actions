@@ -9,3 +9,5 @@ testFiles = [findLabel(files,"Classification","Test").File];
 runtests(testFiles)
 
 close(proj)
+
+%   Copyright 2022 The MathWorks, Inc.
