@@ -4,7 +4,7 @@
  *       An example C-file S-function for multiplying an input by 3,
  *       y  = 3*u
  *
- **
+ *
  * Copyright 1990-2011 The MathWorks, Inc.
  */
 
