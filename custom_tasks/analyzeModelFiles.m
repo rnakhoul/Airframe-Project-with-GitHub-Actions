@@ -1,6 +1,6 @@
 function result = analyzeModelFiles(file)
 %analyzeModelFiles  Project custom task to analyze Simulink files
-%
+% Add comment
 % Input arguments:
 %  file - string - The absolute path to a file included in the custom task.
 %  When you run the custom task, project provides the file 
