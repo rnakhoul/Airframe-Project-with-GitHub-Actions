@@ -1,6 +1,6 @@
 function report = runUnitTest(file)
 %runUnitTest   Project custom task for running MATLAB unit tests
-%
+% Add exta comment
 % Input arguments:
 %  file - string - The absolute path to a MATLAB unit test.
 %  When you run this function as a custom task, project provides 
