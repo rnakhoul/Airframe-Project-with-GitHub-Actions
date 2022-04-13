@@ -1,5 +1,5 @@
 % Open project
-proj = openProject("AirframeExample.prj");
+proj = openProject(pwd);
 
 % List all project files with the label "Test"
 files = proj.Files;

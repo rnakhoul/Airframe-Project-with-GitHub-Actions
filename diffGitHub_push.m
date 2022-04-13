@@ -1,5 +1,5 @@
 % Open project
-proj = openProject("AirframeExample.prj");
+proj = openProject(pwd);
 
 % List last modified models. Use *** to search recursively for modified 
 % SLX files starting in the current folder
