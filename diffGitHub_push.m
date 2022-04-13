@@ -13,8 +13,8 @@ if isempty(modifiedFiles)
 end
 
 % Create a temporary folder
-tempdir = fullfile(proj.RootFolder, "modelscopy");
-mkdir(tempdir)
+tempdir = tempname
+%mkdir(tempdir)
 
 % Generate a comparison report for every modified model file
 for i = 1: size(modifiedFiles)
@@ -22,7 +22,7 @@ for i = 1: size(modifiedFiles)
 end
 
 % Delete the temporary folder
-rmdir modelscopy s
+%rmdir modelscopy s
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
