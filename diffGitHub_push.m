@@ -3,7 +3,7 @@ proj = openProject(pwd);
 
 % List last modified models. Use *** to search recursively for modified 
 % SLX files starting in the current folder
-[status,modifiedFiles] = system("git diff --name-only refs/remotes/origin/main HEAD..HEAD ***.slx ");
+[status,modifiedFiles] = system("git diff --name-only origin/main HEAD ***.slx ");
 modifiedFiles = split(modifiedFiles);
 modifiedFiles = modifiedFiles(1:(end-1)); % Removing last element because it is empty.
 
@@ -50,7 +50,7 @@ function ancestor = getAncestor(tempdir,fileName)
     
     % Build git command to get ancestor
     % git show HEAD~1:models/modelname.slx > modelscopy/modelname_ancestor.slx
-    gitCommand = sprintf('git show refs/remotes/origin/main HEAD:%s > %s', fileName, ancestor);
+    gitCommand = sprintf('git show origin/main HEAD:%s > %s', fileName, ancestor);
     
     [status, result] = system(gitCommand);
     assert(status==0, result);
