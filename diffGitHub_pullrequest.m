@@ -8,7 +8,7 @@ function diffGitHub_pullrequest(branchname)
     gitCommand = sprintf('git diff --name-only refs/remotes/origin/main..refs/remotes/origin/%s ***.slx', branchname);
     [status,modifiedFiles] = system(gitCommand);
     modifiedFiles = split(modifiedFiles);
-    modifiedFiles = modifiedFiles(1:(end-1));
+    modifiedFiles = modifiedFiles(1:(end-1)); % Removing last element because it is empty.
     
     if isempty(modifiedFiles)
         disp('No modified models to compare.')

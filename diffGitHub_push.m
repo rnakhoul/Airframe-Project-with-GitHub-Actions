@@ -5,7 +5,7 @@ proj = openProject(pwd);
 % SLX files starting in the current folder
 [status,modifiedFiles] = system("git diff --name-only HEAD~1..HEAD ***.slx ");
 modifiedFiles = split(modifiedFiles);
-modifiedFiles = modifiedFiles(1:(end-1));
+modifiedFiles = modifiedFiles(1:(end-1)); % Removing last element because it is empty.
 
 if isempty(modifiedFiles)
     disp('No modified models to compare.')
