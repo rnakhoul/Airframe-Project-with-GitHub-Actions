@@ -1,62 +1,62 @@
-function diffGitHub_pullrequest(c1,c2)
-% Open project
-proj = openProject(pwd);
-
-% List last modified model since last push. Use *** to search recursively for modified 
-% SLX files starting in the current folder
-[status,modifiedFiles] = system("git diff --name-only %..%  ***.slx",c1,c2);
-modifiedFiles = split(modifiedFiles);
-modifiedFiles = modifiedFiles(1:(end-1)); % Removing last element because it is empty.
-
-if isempty(modifiedFiles)
-    disp('No modified models to compare.')
-    return
-end
-
-% Create a temporary folder
-tempdir = fullfile(proj.RootFolder, "modelscopy");
-mkdir(tempdir)
-
-% Generate a comparison report for every modified model file
-for i = 1: size(modifiedFiles)
-    report = diffToAncestor(tempdir,string(modifiedFiles(i)));
-end
-
-% Delete the temporary folder
-rmdir modelscopy s
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-function report = diffToAncestor(tempdir,fileName)
+function diffGitHub_push(previouspush,lastpush)
+    % Open project
+    proj = openProject(pwd);
     
-    ancestor = getAncestor(tempdir,fileName);
-
-    % Compare models and publish results in a printable report. 
-    % Specify the format using 'pdf', 'html', or 'docx'.
-    comp= visdiff(ancestor, fileName);
-    filter(comp, 'unfiltered');
-    report = publish(comp,'html');
+    % List last modified model since last push. Use *** to search recursively for modified 
+    % SLX files starting in the current folder
+    [status,modifiedFiles] = system("git diff --name-only %..%  ***.slx",previouspush,lastpush);
+    modifiedFiles = split(modifiedFiles);
+    modifiedFiles = modifiedFiles(1:(end-1)); % Removing last element because it is empty.
     
-end
-
-
-function ancestor = getAncestor(tempdir,fileName)
+    if isempty(modifiedFiles)
+        disp('No modified models to compare.')
+        return
+    end
     
-    [relpath, name, ext] = fileparts(fileName);
-    ancestor = fullfile(tempdir, name);
+    % Create a temporary folder
+    tempdir = fullfile(proj.RootFolder, "modelscopy");
+    mkdir(tempdir)
     
-    % Replace seperators to work with Git and create ancestor file name
-    fileName = strrep(fileName, '\', '/');
-    ancestor = strrep(sprintf('%s%s%s',ancestor, "_ancestor", ext), '\', '/');
+    % Generate a comparison report for every modified model file
+    for i = 1: size(modifiedFiles)
+        report = diffToAncestor(tempdir,string(modifiedFiles(i)));
+    end
     
-    % Build git command to get ancestor
-    % git show HEAD~1:models/modelname.slx > modelscopy/modelname_ancestor.slx
-    gitCommand = sprintf('git show origin/main HEAD:%s > %s', fileName, ancestor);
+    % Delete the temporary folder
+    rmdir modelscopy s
     
-    [status, result] = system(gitCommand);
-    assert(status==0, result);
-
-end
+    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+    
+    function report = diffToAncestor(tempdir,fileName,previouspush)
+        
+        ancestor = getAncestor(tempdir,fileName,previouspush);
+    
+        % Compare models and publish results in a printable report. 
+        % Specify the format using 'pdf', 'html', or 'docx'.
+        comp= visdiff(ancestor, fileName);
+        filter(comp, 'unfiltered');
+        report = publish(comp,'html');
+        
+    end
+    
+    
+    function ancestor = getAncestor(tempdir,fileName,previouspush)
+        
+        [relpath, name, ext] = fileparts(fileName);
+        ancestor = fullfile(tempdir, name);
+        
+        % Replace seperators to work with Git and create ancestor file name
+        fileName = strrep(fileName, '\', '/');
+        ancestor = strrep(sprintf('%s%s%s',ancestor, "_ancestor", ext), '\', '/');
+        
+        % Build git command to get ancestor
+        % git show lastpush:models/modelname.slx > modelscopy/modelname_ancestor.slx
+        gitCommand = sprintf('git show %s:%s > %s', previouspush, fileName, ancestor);
+        
+        [status, result] = system(gitCommand);
+        assert(status==0, result);
+    
+    end
 end
 
 %   Copyright 2022 The MathWorks, Inc.
