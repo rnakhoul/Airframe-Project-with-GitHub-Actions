@@ -50,7 +50,7 @@ function ancestor = getAncestor(tempdir,fileName)
     
     % Build git command to get ancestor
     % git show HEAD~1:models/modelname.slx > modelscopy/modelname_ancestor.slx
-    gitCommand = sprintf('git show HEAD~1:%s > %s', fileName, ancestor);
+    gitCommand = sprintf('git show refs/remotes/origin/main HEAD:%s > %s', fileName, ancestor);
     
     [status, result] = system(gitCommand);
     assert(status==0, result);
