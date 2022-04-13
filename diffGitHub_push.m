@@ -3,7 +3,7 @@ proj = openProject(pwd);
 
 % List last modified models. Use *** to search recursively for modified 
 % SLX files starting in the current folder
-[status,modifiedFiles] = system("git diff --name-only HEAD~1..HEAD ***.slx ");
+[status,modifiedFiles] = system("git diff --name-only refs/remotes/origin/main HEAD~1..HEAD ***.slx ");
 modifiedFiles = split(modifiedFiles);
 modifiedFiles = modifiedFiles(1:(end-1)); % Removing last element because it is empty.
 
