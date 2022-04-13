@@ -35,7 +35,8 @@ function report = diffToAncestor(tempdir,fileName,branchname)
     
     ancestor = getAncestor(tempdir,fileName,branchname);
 
-    % Compare models and publish report
+    % Compare models and publish results in a printable report. 
+    % Specify the format using 'pdf', 'html', or 'docx'. 
     comp= visdiff(ancestor, fileName);
     filter(comp, 'unfiltered');
     report = publish(comp,'html');
