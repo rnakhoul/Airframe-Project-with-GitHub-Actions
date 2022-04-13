@@ -1,9 +1,10 @@
+function diffGitHub_pullrequest(c1,c2)
 % Open project
 proj = openProject(pwd);
 
-% List last modified models. Use *** to search recursively for modified 
+% List last modified model since last push. Use *** to search recursively for modified 
 % SLX files starting in the current folder
-[status,modifiedFiles] = system("git diff --name-only refs/remotes/origin/main..  ***.slx ");
+[status,modifiedFiles] = system("git diff --name-only %..%  ***.slx",c1,c2);
 modifiedFiles = split(modifiedFiles);
 modifiedFiles = modifiedFiles(1:(end-1)); % Removing last element because it is empty.
 
@@ -55,6 +56,7 @@ function ancestor = getAncestor(tempdir,fileName)
     [status, result] = system(gitCommand);
     assert(status==0, result);
 
+end
 end
 
 %   Copyright 2022 The MathWorks, Inc.
