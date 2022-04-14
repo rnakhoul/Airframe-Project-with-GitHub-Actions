@@ -2,12 +2,13 @@ function diffGitHub_push(lastpush)
     % Open project
     proj = openProject(pwd);
     
-    % List modified models since last push. Use *** to search recursively for modified 
+    % List modified models since the last push. Use *** to search recursively for modified 
     % SLX files starting in the current folder
+    % git diff --name-only refs/remotes/origin/main  lastpush ***.slx
     gitCommand = sprintf('git diff --name-only refs/remotes/origin/main %s ***.slx', lastpush);
     [status,modifiedFiles] = system(gitCommand);
     modifiedFiles = split(modifiedFiles);
-    modifiedFiles = modifiedFiles(1:(end-1)); % Removing last element because it is empty.
+    modifiedFiles = modifiedFiles(1:(end-1)); % Removing last element because it is empty
     
     if isempty(modifiedFiles)
         disp('No modified models to compare.')
@@ -28,12 +29,12 @@ function diffGitHub_push(lastpush)
     
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     
-    function report = diffToAncestor(tempdir,fileName,previouspush)
+    function report = diffToAncestor(tempdir,fileName,lastpush)
         
-        ancestor = getAncestor(tempdir,fileName,previouspush);
+        ancestor = getAncestor(tempdir,fileName,lastpush);
     
-        % Compare models and publish results in a printable report. 
-        % Specify the format using 'pdf', 'html', or 'docx'.
+        % Compare models and publish results in a printable report
+        % Specify the format using 'pdf', 'html', or 'docx'
         comp= visdiff(ancestor, fileName);
         filter(comp, 'unfiltered');
         report = publish(comp,'html');

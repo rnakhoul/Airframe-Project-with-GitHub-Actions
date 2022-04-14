@@ -8,7 +8,7 @@ function diffGitHub_pullrequest(branchname)
     gitCommand = sprintf('git diff --name-only refs/remotes/origin/main..refs/remotes/origin/%s ***.slx', branchname);
     [status,modifiedFiles] = system(gitCommand);
     modifiedFiles = split(modifiedFiles);
-    modifiedFiles = modifiedFiles(1:(end-1)); % Removing last element because it is empty.
+    modifiedFiles = modifiedFiles(1:(end-1)); % Removing last element because it is empty
     
     if isempty(modifiedFiles)
         disp('No modified models to compare.')
@@ -35,8 +35,8 @@ function report = diffToAncestor(tempdir,fileName)
     
     ancestor = getAncestor(tempdir,fileName);
 
-    % Compare models and publish results in a printable report. 
-    % Specify the format using 'pdf', 'html', or 'docx'. 
+    % Compare models and publish results in a printable report
+    % Specify the format using 'pdf', 'html', or 'docx'
     comp= visdiff(ancestor, fileName);
     filter(comp, 'unfiltered');
     report = publish(comp,'html');
