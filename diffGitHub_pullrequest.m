@@ -21,7 +21,7 @@ function diffGitHub_pullrequest(branchname)
     
     % Generate a comparison report for every modified model file
     for i = 1: size(modifiedFiles)
-        report = diffToAncestor(tempdir,string(modifiedFiles(i)),branchname);
+        report = diffToAncestor(tempdir,string(modifiedFiles(i)));
     end
     
     % Delete the temporary folder
@@ -31,9 +31,9 @@ end
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-function report = diffToAncestor(tempdir,fileName,branchname)
+function report = diffToAncestor(tempdir,fileName)
     
-    ancestor = getAncestor(tempdir,fileName,branchname);
+    ancestor = getAncestor(tempdir,fileName);
 
     % Compare models and publish results in a printable report. 
     % Specify the format using 'pdf', 'html', or 'docx'. 
@@ -44,7 +44,7 @@ function report = diffToAncestor(tempdir,fileName,branchname)
 end
 
 
-function ancestor = getAncestor(tempdir,fileName,branchname)
+function ancestor = getAncestor(tempdir,fileName)
     
     [relpath, name, ext] = fileparts(fileName);
     ancestor = fullfile(tempdir, name);

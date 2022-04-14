@@ -1,10 +1,10 @@
-function diffGitHub_push(previouspush,lastpush)
+function diffGitHub_push(lastpush)
     % Open project
     proj = openProject(pwd);
     
-    % List last modified model since last push. Use *** to search recursively for modified 
+    % List modified models since last push. Use *** to search recursively for modified 
     % SLX files starting in the current folder
-    gitCommand = sprintf('git diff --name-only refs/remotes/origin/main %s ***.slx',previouspush);
+    gitCommand = sprintf('git diff --name-only refs/remotes/origin/main %s ***.slx', lastpush);
     [status,modifiedFiles] = system(gitCommand);
     modifiedFiles = split(modifiedFiles);
     modifiedFiles = modifiedFiles(1:(end-1)); % Removing last element because it is empty.
@@ -20,7 +20,7 @@ function diffGitHub_push(previouspush,lastpush)
     
     % Generate a comparison report for every modified model file
     for i = 1: size(modifiedFiles)
-        report = diffToAncestor(tempdir,string(modifiedFiles(i)),previouspush);
+        report = diffToAncestor(tempdir,string(modifiedFiles(i)),lastpush);
     end
     
     % Delete the temporary folder
@@ -41,7 +41,7 @@ function diffGitHub_push(previouspush,lastpush)
     end
     
     
-    function ancestor = getAncestor(tempdir,fileName,previouspush)
+    function ancestor = getAncestor(tempdir,fileName,lastpush)
         
         [relpath, name, ext] = fileparts(fileName);
         ancestor = fullfile(tempdir, name);
@@ -52,7 +52,7 @@ function diffGitHub_push(previouspush,lastpush)
         
         % Build git command to get ancestor
         % git show lastpush:models/modelname.slx > modelscopy/modelname_ancestor.slx
-        gitCommand = sprintf('git show refs/remotes/origin/main %s:%s > %s', previouspush, fileName, ancestor);
+        gitCommand = sprintf('git show refs/remotes/origin/main %s:%s > %s', lastpush, fileName, ancestor);
         
         [status, result] = system(gitCommand);
         assert(status==0, result);
