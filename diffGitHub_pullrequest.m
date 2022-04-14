@@ -18,7 +18,7 @@ function diffGitHub_pullrequest(branchname)
     
     % Create a temporary folder to store the ancestors of the modified models
     % If you have models with the same name in different folders, consider
-    % creating multiple folders to prevent overriding temporary models
+    % creating multiple folders to prevent overwriting temporary models
     tempdir = fullfile(proj.RootFolder, "modelscopy");
     mkdir(tempdir)
     
