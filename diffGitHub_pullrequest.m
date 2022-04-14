@@ -8,6 +8,7 @@ function diffGitHub_pullrequest(branchname)
     gitCommand = sprintf('git diff --name-only refs/remotes/origin/main..refs/remotes/origin/%s ***.slx', branchname);
     [status,modifiedFiles] = system(gitCommand);
     assert(status==0, modifiedFiles);
+    
     modifiedFiles = split(modifiedFiles);
     modifiedFiles(end) = []; % Removing last element because it is empty
     

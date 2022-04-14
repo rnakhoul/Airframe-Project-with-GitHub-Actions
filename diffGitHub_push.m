@@ -8,6 +8,7 @@ function diffGitHub_push(lastpush)
     gitCommand = sprintf('git diff --name-only refs/remotes/origin/main %s ***.slx', lastpush);
     [status,modifiedFiles] = system(gitCommand);
     assert(status==0, modifiedFiles);
+    
     modifiedFiles = split(modifiedFiles);
     modifiedFiles(end) = []; % Removing last element because it is empty
     
