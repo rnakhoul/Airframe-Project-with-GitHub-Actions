@@ -7,20 +7,23 @@ function diffGitHub_pullrequest(branchname)
     % git diff --name-only refs/remotes/origin/main..refs/remotes/origin/branchtomerge
     gitCommand = sprintf('git diff --name-only refs/remotes/origin/main..refs/remotes/origin/%s ***.slx', branchname);
     [status,modifiedFiles] = system(gitCommand);
+    assert(status==0, modifiedFiles);
     modifiedFiles = split(modifiedFiles);
-    modifiedFiles = modifiedFiles(1:(end-1)); % Removing last element because it is empty
+    modifiedFiles(end) = []; % Removing last element because it is empty
     
     if isempty(modifiedFiles)
         disp('No modified models to compare.')
         return
     end
     
-    % Create a temporary folder
+    % Create a temporary folder to store the ancestors of the modified models
+    % If you have models with the same name in different folders, consider
+    % creating multiple folders to prevent overriding temporary models
     tempdir = fullfile(proj.RootFolder, "modelscopy");
     mkdir(tempdir)
     
     % Generate a comparison report for every modified model file
-    for i = 1: size(modifiedFiles)
+    for i = 1:numel(modifiedFiles)
         report = diffToAncestor(tempdir,string(modifiedFiles(i)));
     end
     
