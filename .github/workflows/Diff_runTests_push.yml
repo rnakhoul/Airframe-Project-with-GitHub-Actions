@@ -26,8 +26,7 @@ jobs:
       - name: Set up MATLAB
         uses: matlab-actions/setup-matlab@v1
       - name: Compare Models to Ancestors
-        run:
-        xvfb-run matlab -batch "lastpush='${{ github.event.before }}', diffGitHub_push(lastpush)"
+        run: xvfb-run matlab -batch "lastpush='${{ github.event.before }}', diffGitHub_push(lastpush)"
       - name: Upload Comparison Reports
         uses: actions/upload-artifact@v3
         with:
