@@ -11,16 +11,23 @@ on:
 jobs:
   my-job:
     name: Diff to Ancestor, Publish and attach Report, and Run Project Tests
-    runs-on: self-hosted
+   # runs-on: self-hosted
+    runs-on: ubuntu-latest
     steps:
       - name: Check out repository
         uses: actions/checkout@v2
         with:
          fetch-depth: 0
+#For self-hosted runners
+      #- name: Compare Models to Ancestors
+      #  uses: matlab-actions/run-command@v1
+      #  with:
+      #    command: lastpush="${{ github.event.before }}", diffGitHub_push(lastpush)      xvfb-run
+      - name: Set up MATLAB
+        uses: matlab-actions/setup-matlab@v1
       - name: Compare Models to Ancestors
-        uses: matlab-actions/run-command@v1
-        with:
-          command: lastpush="${{ github.event.before }}", diffGitHub_push(lastpush)
+        run:
+        xvfb-run matlab -batch "lastpush='${{ github.event.before }}', diffGitHub_push(lastpush)"
       - name: Upload Comparison Reports
         uses: actions/upload-artifact@v3
         with:
