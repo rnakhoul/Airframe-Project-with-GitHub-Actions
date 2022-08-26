@@ -25,7 +25,7 @@ function diffGitHub_push(lastpush)
     
     % Generate a comparison report for every modified model file
     for i = 1:numel(modifiedFiles)
-        report = diffToAncestor(tempdir,string(modifiedFiles(i)),lastpush);
+        report = diffToAncestor(tempdir,string(modifiedFiles(i)),lastpush)
     end
     
     % Delete the temporary folder
@@ -35,11 +35,11 @@ function diffGitHub_push(lastpush)
     
     function report = diffToAncestor(tempdir,fileName,lastpush)
         
-        ancestor = getAncestor(tempdir,fileName,lastpush);
+        ancestor = getAncestor(tempdir,fileName,lastpush)
     
         % Compare models and publish results in a printable report
         % Specify the format using 'pdf', 'html', or 'docx'
-        comp= visdiff(ancestor, fileName);
+        comp= visdiff(ancestor, fileName)
         filter(comp, 'unfiltered');
         report = publish(comp,'html');
         
@@ -57,7 +57,7 @@ function diffGitHub_push(lastpush)
         
         % Build git command to get ancestor
         % git show lastpush:models/modelname.slx > modelscopy/modelname_ancestor.slx
-        gitCommand = sprintf('git show refs/remotes/origin/main %s:%s > %s', lastpush, fileName, ancestor);
+        gitCommand = sprintf('git show refs/remotes/origin/main %s:%s > %s', lastpush, fileName, ancestor)
         
         [status, result] = system(gitCommand);
         assert(status==0, result);
