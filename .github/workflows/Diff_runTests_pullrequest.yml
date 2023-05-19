@@ -26,11 +26,6 @@ jobs:
         with:
            name: diffreports
            path: ${{ github.workspace }}\*.html
-      - name: Automerge Branch to main
-        uses: matlab-actions/run-command@v1
-        with:
-          token: ${{ secrets.MY_GITHUB_TOKEN }}
-          command: automerge_pullrequest
       - name: Run All Project Tests
         uses: matlab-actions/run-command@v1
         with:
