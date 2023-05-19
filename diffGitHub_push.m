@@ -4,8 +4,8 @@ function diffGitHub_push(lastpush)
     
     % List modified models since the last push. Use *** to search recursively for modified 
     % SLX files starting in the current folder
-    % git diff --name-only refs/remotes/origin/main  lastpush ***.slx
-    gitCommand = sprintf('git diff --name-only refs/remotes/origin/main %s ***.slx', lastpush)
+    % git diff --name-only lastpush ***.slx
+    gitCommand = sprintf('git diff --name-only %s ***.slx', lastpush)
     [status,modifiedFiles] = system(gitCommand)
     assert(status==0, modifiedFiles);
     
@@ -57,7 +57,7 @@ function diffGitHub_push(lastpush)
         
         % Build git command to get ancestor
         % git show lastpush:models/modelname.slx > modelscopy/modelname_ancestor.slx
-        gitCommand = sprintf('git show refs/remotes/origin/main %s:%s > %s', lastpush, fileName, ancestor)
+        gitCommand = sprintf('git show %s:%s > %s', lastpush, fileName, ancestor)
         
         [status, result] = system(gitCommand);
         assert(status==0, result);
