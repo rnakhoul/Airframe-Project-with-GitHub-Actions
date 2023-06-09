@@ -13,18 +13,17 @@ jobs:
     name: Diff to Ancestor, Publish and attach Report, and Run Project Tests
     runs-on: ubuntu-latest
     steps:
-      - name: Start display server
-        run: |
-         sudo apt-get install -y xvfb
-         # start xvfb on (default) display :0
-         sudo /usr/bin/Xvfb $DISPLAY -screen 0 1280x1024x24 &
-         echo "DISPLAY=:99" >> $GITHUB_ENV
       - name: Check out repository
         uses: actions/checkout@v2
         with:
          fetch-depth: 0
       - name: Set up MATLAB
         uses: matlab-actions/setup-matlab@v1
+      - name: Start display server
+        run: |
+         sudo apt-get install -y xvfb
+         # start xvfb on (default) display :0
+         sudo /usr/bin/Xvfb $DISPLAY -screen 0 1280x1024x24 &
       - name: Compare Models to Ancestors
         uses: matlab-actions/run-command@v1
         with:
@@ -33,7 +32,7 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
            name: diffreports
-           path: ${{ github.workspace }}\*.html
+           path: ${{ github.workspace }}/*.html
       - name: Run All Project Tests
         uses: matlab-actions/run-command@v1
         with:
