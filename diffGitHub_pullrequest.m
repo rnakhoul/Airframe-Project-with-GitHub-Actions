@@ -8,9 +8,9 @@ function diffGitHub_pullrequest(branchname)
     gitCommand = sprintf('git diff --name-only main..%s ***.slx &', branchname)
     display("before modified files")
     [status,modifiedFiles] = system(gitCommand)
-    assert(status==0, modifiedFiles);
+    assert(status==0, modifiedFiles)
     
-    modifiedFiles = split(modifiedFiles);
+    modifiedFiles = split(modifiedFiles)
     modifiedFiles(end) = [] % Removing last element because it is empty
     
     if isempty(modifiedFiles)
