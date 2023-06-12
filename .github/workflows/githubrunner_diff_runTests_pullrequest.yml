@@ -12,6 +12,8 @@ jobs:
   my-job:
     name: Diff to Ancestor, Publish and attach Report, and Run Project Tests
     runs-on: ubuntu-latest
+    env:
+      DISPLAY: :0
     steps:
       - name: Check out repository
         uses: actions/checkout@v2
@@ -21,9 +23,8 @@ jobs:
         uses: matlab-actions/setup-matlab@v1
       - name: Start display server
         run: |
-         sudo apt-get install xvfb
-         Xvfb :99 &
-         echo "DISPLAY=:99" >> $GITHUB_ENV
+         sudo apt-get install -y xvfb 
+         sudo /usr/bin/Xvfb $DISPLAY -screen 0 1280x1024x24
       - name: Compare Models to Ancestors
         uses: matlab-actions/run-command@v1
         with:
