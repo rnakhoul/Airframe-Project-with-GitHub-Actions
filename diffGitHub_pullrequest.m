@@ -1,7 +1,8 @@
 function diffGitHub_pullrequest(branchname)
     % Open project
+    matlab.ui.internal.hasDisplay()
     proj = openProject(pwd);
-
+matlab.ui.internal.hasDisplay()
     % List modified models since branch diverged from main
     % Use *** to search recursively for modified SLX files starting in the current folder
     % git diff --name-only refs/remotes/origin/main..refs/remotes/origin/branchtomerge
