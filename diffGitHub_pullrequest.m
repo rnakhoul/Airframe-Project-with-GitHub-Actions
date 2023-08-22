@@ -59,11 +59,14 @@ function ancestor = getAncestor(tempdir,fileName)
     ancestor = strrep(sprintf('%s%s%s',ancestor, "_ancestor", ext), '\', '/');
     % Build git command to get ancestor from main
     % git show refs/remotes/origin/main:models/modelname.slx > modelscopy/modelname_ancestor.slx
-    gitCommand = sprintf('git --no-pager show refs/remotes/origin/main:%s > %s', fileName, ancestor);
-    
-    [status, result] = system(gitCommand);
-    assert(status==0, result);
-
+    try
+       gitCommand = sprintf('git --no-pager show refs/remotes/origin/main:%s > %s', fileName, ancestor);
+       [status, result] = system(gitCommand);
+       assert(status==0, result);
+    catch
+       warning("Model is newly added or does not have a valid ancestor.")
+       ancestor = fileName;
+    end
 end
 
 %   Copyright 2022-2023 The MathWorks, Inc.
