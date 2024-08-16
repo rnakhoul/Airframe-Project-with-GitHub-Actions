@@ -1,17 +1,15 @@
 function diffGitHub_pullrequest(branchname)
-   
     % Open project
     proj = openProject(pwd);
-    
+
     % List modified models since branch diverged from main
     % Use *** to search recursively for modified SLX files starting in the current folder
-    % git diff --name-only refs/remotes/origin/main..refs/remotes/origin/branchtomerge
-    gitCommand = sprintf('git --no-pager diff --name-only refs/remotes/origin/main..refs/remotes/origin/%s ***.slx', branchname)
+    % git diff --name-only main..branchtomerge
+    gitCommand = sprintf('git --no-pager diff --name-only origin/main..origin/%s ***.slx', branchname);
     [status,modifiedFiles] = system(gitCommand);
     assert(status==0, modifiedFiles);
-    
     modifiedFiles = split(modifiedFiles);
-    modifiedFiles(end) = [] % Removing last element because it is empty
+    modifiedFiles(end) = []; % Removing last element because it is empty
     
     if isempty(modifiedFiles)
         disp('No modified models to compare.')
@@ -58,15 +56,12 @@ function ancestor = getAncestor(tempdir,fileName)
     fileName = strrep(fileName, '\', '/');
     ancestor = strrep(sprintf('%s%s%s',ancestor, "_ancestor", ext), '\', '/');
     % Build git command to get ancestor from main
-    % git show refs/remotes/origin/main:models/modelname.slx > modelscopy/modelname_ancestor.slx
-    try
-       gitCommand = sprintf('git --no-pager show refs/remotes/origin/main:%s > %s', fileName, ancestor);
-       [status, result] = system(gitCommand);
-       assert(status==0, result);
-    catch
-       warning("Model is newly added or does not have a valid ancestor.")
-       ancestor = fileName;
-    end
+    % git show origin/main:models/modelname.slx > modelscopy/modelname_ancestor.slx
+    gitCommand = sprintf('git --no-pager show origin/main:%s > %s', fileName, ancestor);
+    
+    [status, result] = system(gitCommand);
+    assert(status==0, result);
+
 end
 
-%   Copyright 2022-2023 The MathWorks, Inc.
+%   Copyright 2024 The MathWorks, Inc.
