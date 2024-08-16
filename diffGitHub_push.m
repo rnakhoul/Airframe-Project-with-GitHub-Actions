@@ -5,10 +5,9 @@ function diffGitHub_push(lastpush)
     % List modified models since the last push. Use *** to search recursively for modified 
     % SLX files starting in the current folder
     % git diff --name-only lastpush ***.slx
-    gitCommand = sprintf('git --no-pager diff --name-only %s ***.slx', lastpush)
-    [status,modifiedFiles] = system(gitCommand)
+    gitCommand = sprintf('git --no-pager diff --name-only %s ***.slx', lastpush);
+    [status,modifiedFiles] = system(gitCommand);
     assert(status==0, modifiedFiles);
-    
     modifiedFiles = split(modifiedFiles);
     modifiedFiles(end) = []; % Removing last element because it is empty
     
@@ -25,21 +24,21 @@ function diffGitHub_push(lastpush)
     
     % Generate a comparison report for every modified model file
     for i = 1:numel(modifiedFiles)
-        report = diffToAncestor(tempdir,string(modifiedFiles(i)),lastpush)
+        report = diffToAncestor(tempdir,string(modifiedFiles(i)),lastpush);
     end
     
     % Delete the temporary folder
     rmdir modelscopy s
-end    
+    
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     
     function report = diffToAncestor(tempdir,fileName,lastpush)
         
-        ancestor = getAncestor(tempdir,fileName,lastpush)
+        ancestor = getAncestor(tempdir,fileName,lastpush);
     
         % Compare models and publish results in a printable report
         % Specify the format using 'pdf', 'html', or 'docx'
-        comp= visdiff(ancestor, fileName)
+        comp= visdiff(ancestor, fileName);
         filter(comp, 'unfiltered');
         report = publish(comp,'html');
         
@@ -57,15 +56,12 @@ end
         
         % Build git command to get ancestor
         % git show lastpush:models/modelname.slx > modelscopy/modelname_ancestor.slx
-        try
-            gitCommand = sprintf('git --no-pager show %s:%s > %s', lastpush, fileName, ancestor)
-            [status, result] = system(gitCommand);
-            assert(status==0, result);
-        catch
-            warning("Model is newly added or does not have a valid ancestor.")
-            ancestor = fileName;
-        end
+        gitCommand = sprintf('git --no-pager show %s:%s > %s', lastpush, fileName, ancestor);
+        
+        [status, result] = system(gitCommand);
+        assert(status==0, result);
     
     end
+end
 
 %   Copyright 2023 The MathWorks, Inc.
